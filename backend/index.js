@@ -45,7 +45,7 @@ const mileageHistoryController = require('./routes/member/mileageController');  
 
 const goodsRoutes = require('./routes/products/goodsController'); // 쇼핑몰 상품 리스트
 
-
+const kakaoController = require('./routes/member/kakaoController');
 
 // 세션 설정
 app.use(session({
@@ -56,9 +56,14 @@ app.use(session({
 }));
 
 // 미들웨어 설정
-app.use(cors());
+// app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cors({
+    origin: ["http://localhost:3000","http://localhost:5500"], // 프론트엔드 주소
+    credentials: true,
+  }));
 
 //  소스 로그 보는곳 이후 주석처리할것
  app.use((req, res, next) => {
@@ -103,6 +108,17 @@ app.use('/mall/checkNick', checkNickController);    // 닉네임 중복확인
 app.use('/mall/checkId', checkIdController);        // 아이디 중복확인
 app.use('/mall/mileage', mileageHistoryController);  // 마이페이지 마일리지 내역
 
+// 회원 파트
+// app.use('/mall/memlogin', memLoginController);      // 회원 로그인 라우터
+// app.use('/mall/member', joinController);            // 회원가입 라우터
+// app.use('/mall/find-id', findIdController);         // 회원 아이디 찾기 라우터
+// app.use('/mall/find-pw', findPwController);         // 회원 비밀번호 찾기 라우터
+// app.use('/mall/reset-pw', resetPwController);       // 회원 비밀번호 변경 라우터
+// app.use('/mall/kakao', kakaoController);            // 카카오 회원가입 라우터 추가
+app.use('/api/register', (req, res, next) => {
+  console.log(`[REGISTER ROUTE] ${req.method} ${req.originalUrl}`);
+  next();
+}, kakaoController);
 
 // 쇼핑몰 상품 리스트
 app.use('/mall/goods/goodsList', goodsRoutes); // 상품 리스트

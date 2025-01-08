@@ -441,3 +441,18 @@ INSERT INTO `product_detail` VALUES (1,1,'111',1,'C','user07','2024-12-29 15:16:
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2025-01-06 14:34:33
+
+
+INSERT INTO mem_info (
+  id, pw, name, nick, email, role, type, level, reg_id
+) VALUES (
+  'kakao_12345678', -- 카카오 고유 ID를 활용한 회원 ID
+  '',               -- 비밀번호는 공백 또는 더미 값으로 처리
+  '홍길동',           -- 카카오 사용자 이름
+  '길동',            -- 카카오 사용자 닉네임
+  'hong@example.com', -- 카카오 사용자 이메일
+  '회원',            -- 기본 회원 역할
+  '일반',            -- 기본 회원 구분
+  '브론즈',          -- 기본 회원 등급
+  'system'          -- 작성자는 시스템으로 설정
+);

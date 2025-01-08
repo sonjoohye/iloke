@@ -30,6 +30,9 @@ import OneInquery from '../pages/notice/OneInquery';
 import ItemWrite from '../pages/notice/ItemWrite';
 import BoardDetails from '../pages/notice/BoardDetails';
 
+import OAuthRedirect from '../pages/member/OAuthRedirect';
+import KakaoLogin from '../pages/member/KakaoLogin';
+
 export function useContent() {
     const [content, setContent] = useState(<Home />);
     const location = useLocation(); // 현재 경로 가져오기
@@ -47,6 +50,12 @@ export function useContent() {
             setContent(<Order />);
         } else if (path === "/login") {
             setContent(<Login />);
+        }
+        else if (path === "/KakaoLogin") {
+            setContent(<KakaoLogin />); // Redirect URI와 KakaoLogin 컴포넌트 매핑
+        }
+        else if (path === "/oauth"){
+            setContent(<OAuthRedirect />);
         }
         else if (path === "/join") {
             setContent(<Join />);
