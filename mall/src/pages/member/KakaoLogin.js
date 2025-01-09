@@ -16,12 +16,12 @@ const KakaoLogin = () => {
 
     if (authCode) {
       console.log('인증 코드:', authCode);
-      getAccessToken(authCode); // 인증 코드로 액세스 토큰 요청
-
+      getAccessToken(authCode);
     } else {
       console.error('인증 코드가 없습니다.');
     }
   }, []);
+
   const getAccessToken = async (authCode) => {
     const tokenUrl = "https://kauth.kakao.com/oauth/token";
     const data = new URLSearchParams({
@@ -30,13 +30,13 @@ const KakaoLogin = () => {
       redirect_uri: REDIRECT_URI,
       code: authCode,
     });
+
     console.log("토큰 요청 데이터:", {
       grant_type: "authorization_code",
       client_id: REST_API_KEY,
       redirect_uri: REDIRECT_URI,
       code: authCode,
     });
-
 
     try {
       const response = await fetch(tokenUrl, {
@@ -54,25 +54,26 @@ const KakaoLogin = () => {
       } else {
         console.error("토큰 요청 실패:", response.statusText);
         const errorResponse = await response.json();
-        console.error("오류 응답:", errorResponse); // 오류 상세 메시지 출력
+        console.error("오류 응답:", errorResponse);
       }
     } catch (error) {
       console.error("토큰 요청 중 오류 발생:", error);
     }
   };
+
   const getUserInfo = async (accessToken) => {
     try {
       const response = await fetch("https://kapi.kakao.com/v2/user/me", {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${accessToken}`, // 액세스 토큰을 Bearer로 포함
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
       if (response.ok) {
         const userInfo = await response.json();
         console.log("사용자 정보:", userInfo);
-        saveLoginStatus(userInfo)
+        saveLoginStatus(userInfo);
       } else {
         console.error("사용자 정보 요청 실패:", response.statusText);
       }
@@ -80,35 +81,40 @@ const KakaoLogin = () => {
       console.error("사용자 정보 요청 중 오류 발생:", error);
     }
   };
+
   const saveLoginStatus = async (userInfo) => {
     const payload = {
       kakaoId: userInfo.id,
       email: userInfo.kakao_account?.email || null,
       nickname: userInfo.properties?.nickname || 'unknown',
     };
-
+  
     console.log("백엔드로 전송될 데이터:", payload);
-
-    const response = await fetch("http://localhost:5500/api/login/kakao", {
+  
+    const response = await fetch(`${process.env.REACT_APP_BACK_URL}/api/login/kakao`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
     });
-
+  
     if (response.ok) {
       const result = await response.json();
       console.log("회원가입 성공:", result);
     } else {
-      console.error("회원가입 실패:", response.statusText);
+      const errorText = await response.text();
+      console.error("회원가입 실패:", response.statusText, errorText);
     }
   };
+  
+  
+
   return (
     <div>
       <h1>카카오 로그인 처리 중...</h1>
     </div>
-  )
-}
+  );
+};
 
-export default KakaoLogin
+export default KakaoLogin;

@@ -2,27 +2,27 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 async function registerKakaoUser(kakaoId, email, nickname) {
-  const url = 'http://localhost:5000/register/kakao'; // 백엔드 주소
-  const data = { kakaoId, email, nickname }; // 보낼 데이터
+  const url = `${process.env.REACT_APP_BACK_URL}/register/kakao`;
+  const data = { kakaoId, email, nickname };
 
   try {
-    const response = await axios.post(url, data); // 요청 보내기
-    alert(response.data.message); // 서버에서 온 메시지 보여주기
+    const response = await axios.post(url, data);
+    alert(response.data.message);
   } catch (error) {
-    console.error('회원가입 에러:', error); // 에러 로그
+    console.error('회원가입 에러:', error);
     alert('문제가 생겼어요.');
   }
 }
 
 async function loginKakaoUser(kakaoId) {
-  const url = 'http://localhost:5000/login/kakao'; // 백엔드 주소
-  const data = { kakaoId }; // 보낼 데이터
+  const url = `${process.env.REACT_APP_BACK_URL}/login/kakao`;
+  const data = { kakaoId };
 
   try {
-    const response = await axios.post(url, data); // 요청 보내기
-    alert(response.data.message); // 서버에서 온 메시지 보여주기
+    const response = await axios.post(url, data);
+    alert(response.data.message);
   } catch (error) {
-    console.error('로그인 에러:', error); // 에러 로그
+    console.error('로그인 에러:', error);
     alert('문제가 생겼어요.');
   }
 }
