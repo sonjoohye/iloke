@@ -32,7 +32,7 @@ import BoardDetails from '../pages/notice/BoardDetails';
 import OAuthRedirect from '../pages/member/OAuthRedirect';
 import KakaoLogin from '../pages/member/KakaoLogin';
 import ItemDetail from '../pages/notice/ItemDetail'; // 추가된 컴포넌트
-
+import KakaoAuth from '../pages/member/KakaoAuth';
 export function useContent() {
     const [content, setContent] = useState(<Home />);
     const location = useLocation(); // 현재 경로 가져오기
@@ -53,6 +53,9 @@ export function useContent() {
         }
         else if (path === "/KakaoLogin") {
             setContent(<KakaoLogin />); // Redirect URI와 KakaoLogin 컴포넌트 매핑
+        }
+        else if(path === '/KakaoAuth'){
+            setContent(<KakaoAuth/>);
         }
         else if (path === "/oauth"){
             setContent(<OAuthRedirect />);
