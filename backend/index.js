@@ -22,6 +22,8 @@ const FrontOrderRoutes = require('./routes/order/FrontOrder')  // 프론트 페�
 const CartRoutes = require('./routes/order/Cart') // 프론트 페이지
 const MyPageRoutes = require('./routes/order/MyPage') // 프론트 페이지
 
+const ShowRoomRoutes = require('./routes/order/showrooms') // db
+
 const app = express();
 
 // 바디파서
@@ -44,6 +46,8 @@ const checkIdController = require('./routes/member/checkIdController');         
 const mileageHistoryController = require('./routes/member/mileageController');  // 마이페이지 마일리지 내역
 
 const goodsRoutes = require('./routes/products/goodsController'); // 쇼핑몰 상품 리스트
+
+
 
 
 
@@ -84,10 +88,12 @@ app.use('/api/mileage', AaaRoutes );
 app.use('/api/login', loginController); // 관리자 로그인 라우터
 app.use('/api/settle', loginController); // 관리자 로그인 라우터
 app.use('/api/member', memberRouter())
+app.use('/api/showrooms', ShowRoomRoutes) //지도
 
 app.use('/mall/cart', CartRoutes); // 프론트 페이지
 app.use('/mall/order', FrontOrderRoutes); // 프론트 페이지
 app.use('/mall/mypage', MyPageRoutes); // 프론트 페이지
+
 
 
 // 회원 파트

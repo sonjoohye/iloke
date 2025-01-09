@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 // import "./Order.css";
 import styles from './Order.module.css';
 
+import ShowRoomInfo from "./ShowRoomInfo";
+
 import { rFetchCartItems, dDeleteCartItem, uSubmitOrder, rFetchMileageInfo } from "../../services/api"; //  uSubmitOrder 추가
 
 
@@ -26,6 +28,17 @@ const Order = () => {
     pay_method: "신용카드",
   });
 
+  const [showModal, setShowModal] = useState(false); // 모달 상태
+
+
+   // 쇼룸 선택 시 실행되는 콜백
+   const handleSelectShowroom = (showroom) => {
+    setFormData((prev) => ({
+      ...prev,
+      recipientAddress: showroom.address, // 선택된 쇼룸 주소 저장
+    }));
+    setShowModal(false); // 모달 닫기
+  };
 
   const [errors, setErrors] = useState({}); // 유효성 에러 상태 추가
 
@@ -457,6 +470,15 @@ useEffect(() => {
 />
               </td>
             </tr>
+            {/* 모달창! */}
+            <button
+                type="button"
+                onClick={() => setShowModal(true)} // 모달 열기
+                className={styles.select_button}
+              >
+                주소 선택
+              </button>
+               {/* 모달창! */}
             <tr>
               <th>전화번호</th>
               <td>
@@ -502,6 +524,22 @@ useEffect(() => {
 </tr> */}
           </tbody>
         </table>
+
+{/* 모달 창 */}
+{showModal && (
+      <div className={styles.modal_overlay}>
+        <div className={styles.modal_content}>
+          <button
+            className={styles.close_button}
+            onClick={() => setShowModal(false)} // 모달 닫기
+          >
+            닫기
+          </button>
+          <ShowRoomInfo onSelectShowroom={handleSelectShowroom} />
+        </div>
+      </div>
+    )}
+
       </div>
 
       <div className={styles.payment_table_div}>

@@ -149,6 +149,9 @@ function Header() {
                   <li>
                     <Link to="/notice/one_inquery">1:1문의</Link>
                   </li>
+                  <li>
+                    <Link to="/notice/showRoomInfo">지점</Link>
+                  </li>
                 </ol>
               </li>
             </ul>

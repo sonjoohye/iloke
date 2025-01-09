@@ -23,7 +23,10 @@ import MemModify2 from '../pages/member/memModify2';
 // import Button from '../pages/order/Button';
 import CustomerReview from '../pages/notice/CustomerReview';
 import NoticePage from '../pages/notice/NoticePage';
-import PhotoReview from '../pages/notice/PhotoReview.js';
+import PhotoReview from '../pages/notice/PhotoReview';
+
+import ShowRoomInfo from '../pages/order/ShowRoomInfo.js';
+
 import ItemInquery from '../pages/notice/ItemInquery';
 import Faq from '../pages/notice/Faq';
 import OneInquery from '../pages/notice/OneInquery';
@@ -92,7 +95,9 @@ else if (path === "/notice/customer_review") {   // 전체후기
             setContent(<Faq />);
         } else if (path === "/notice/one_inquery") {   // 1:1문의
             setContent(<OneInquery />);
-        }
+        } else if (path === "/notice/showRoomInfo") {
+            setContent(<ShowRoomInfo />); // 맵 페이지 추가
+        } 
 
         // 📢 /orderend/:order_id 경로 처리
         const matchOrderEnd = path.match(/^\/orderend\/(\d+)$/); // 🔥 order_id는 숫자로 제한
