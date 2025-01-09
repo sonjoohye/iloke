@@ -67,6 +67,7 @@ table {
 input{border: 1px solid #cccccc;}
 input[type='text'],
 input[type='password']{padding: 5px 10px;width: 100%; outline: none;}
+textarea{padding: 5px;width: 100%; outline: none;resize: none;}
 
 select{border: 1px solid #cccccc; outline: none;}
 input:focus,

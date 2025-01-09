@@ -5,7 +5,7 @@ const conn = db.createPool({
     host: 'localhost',
     user: 'iloke',
     password: '1q2w3e4r!@#',
-    database: 'iloke'
+    database: 'iloke' 
 });
 
 

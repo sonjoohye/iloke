@@ -46,8 +46,16 @@ export const deleteBoardAnswer = (id) => API.delete(`/boards/answer`, { params: 
 // export const updateBoardCount = (id) => API.put(`/boards/count`, { params: { id } });
 export const updateBoardCount = (id) => API.put(`/boards/count?id=${id}`);
 
-
-
+// 📦 게시판 콘텐츠 조회 API (새로 추가됨)
+export const getBoardContent = async (id) => {
+    try {
+        const response = await API.get(`/board/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching board content:", error);
+        throw error;
+    }
+};
 
 // 📦 상품 관련 API
 export const proList = () => API.get('/products');
