@@ -23,6 +23,7 @@ import MemModify2 from '../pages/member/memModify2';
 import CustomerReview from '../pages/notice/CustomerReview';
 import NoticePage from '../pages/notice/NoticePage';
 import PhotoReview from '../pages/notice/PhotoReview';
+import ShowRoomInfo from '../pages/order/ShowRoomInfo.js';
 import ItemInquery from '../pages/notice/ItemInquery';
 import Faq from '../pages/notice/Faq';
 import OneInquery from '../pages/notice/OneInquery';
@@ -106,7 +107,9 @@ export function useContent() {
             setContent(<Faq />);
         } else if (path === "/notice/one_inquery") {   // 1:1문의
             setContent(<OneInquery />);
-        } else if (path === "/detail/:id") {   // 상세 페이지
+        } else if (path === "/notice/showRoomInfo") {
+            setContent(<ShowRoomInfo />); // 맵 페이지 추가
+        }  else if (path === "/detail/:id") {   // 상세 페이지
             setContent(<ItemDetail />);
         }
 
