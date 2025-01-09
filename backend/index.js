@@ -115,8 +115,9 @@ app.use('/mall/mileage', mileageHistoryController);  // 마이페이지 마일�
 // app.use('/mall/find-pw', findPwController);         // 회원 비밀번호 찾기 라우터
 // app.use('/mall/reset-pw', resetPwController);       // 회원 비밀번호 변경 라우터
 // app.use('/mall/kakao', kakaoController);            // 카카오 회원가입 라우터 추가
-app.use('/api/register', (req, res, next) => {
+app.use('/api/login/kakao', (req, res, next) => {
   console.log(`[REGISTER ROUTE] ${req.method} ${req.originalUrl}`);
+  console.log('Request Body:', req.body); // 요청 데이터 확인
   next();
 }, kakaoController);
 
