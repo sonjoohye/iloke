@@ -535,7 +535,10 @@ useEffect(() => {
           >
             닫기
           </button>
-          <ShowRoomInfo onSelectShowroom={handleSelectShowroom} />
+          <ShowRoomInfo 
+          onSelectShowroom={handleSelectShowroom}
+          mode="modal" // 모달에서는 modal 모드로 설정
+           />
         </div>
       </div>
     )}

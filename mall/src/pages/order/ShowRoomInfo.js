@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './ShowRoomInfo.css';
 
-const ShowRoomInfo = ({ onSelectShowroom }) => {
+const ShowRoomInfo = ({ onSelectShowroom, mode = 'page' }) => { // 기본 모드를 "page"로 설정
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [keyword, setKeyword] = useState('');
@@ -132,10 +132,8 @@ console.log("All Showrooms:", allShowrooms);
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />
-        <div className='map-btnWrap'>
-          <button onClick={handleSearch}>검색</button>
-          <button onClick={handleReset}>초기화</button>
-        </div>
+        <button onClick={handleSearch}>검색</button>
+        <button onClick={handleReset}>초기화</button>
       </div>
       <div className="map-container">
         <div id="map" style={{ width: '70%', height: '500px', display: 'inline-block' }}></div>
@@ -149,37 +147,45 @@ console.log("All Showrooms:", allShowrooms);
           }}
         >
           {selectedShowroom ? (
-            <div className="showroom-details">
-              <h3>{selectedShowroom.name}</h3>
-              <p>주소: {selectedShowroom.address}</p>
-              <p>전화번호: {selectedShowroom.phone}</p>
-              <button
-                onClick={() => {
-                  onSelectShowroom(selectedShowroom);
-                  alert(`${selectedShowroom.name}을 배송지역으로 설정합니다.`);
-                  setSelectedShowroom(null);
-                }}
-              >
-                예
-              </button>
-              <button onClick={() => setSelectedShowroom(null)}>아니오</button>
-            </div>
-          ) : (
-            <ul>
-            {currentItems.map((showroom) => (
-              <li
-                key={showroom.id}
-                className="list-item"
-                onClick={() => {
-                  handleListClick(showroom); // 지도 중심 이동
-                  setSelectedShowroom(showroom); // 마커 클릭과 동일한 동작
-                }}
-              >
-                {showroom.name}
-              </li>
-            ))}
-          </ul>
-          )}
+  <div className="showroom-details">
+    <h3>{selectedShowroom.name}</h3>
+    <p>주소: {selectedShowroom.address}</p>
+    <p>전화번호: {selectedShowroom.phone}</p>
+
+    {/* 예/아니오 버튼은 "modal" 모드일 때만 표시 */}
+    {mode === 'modal' ? (
+  <div>
+    <button
+      onClick={() => {
+        onSelectShowroom(selectedShowroom);
+        alert(`${selectedShowroom.name}을 배송지역으로 설정합니다.`);
+        setSelectedShowroom(null);
+      }}
+    >
+      예
+    </button>
+    <button onClick={() => setSelectedShowroom(null)}>아니오</button>
+  </div>
+) : (
+  <button onClick={() => setSelectedShowroom(null)}>뒤로가기</button>
+)}
+  </div>
+) : (
+  <ul>
+    {currentItems.map((showroom) => (
+      <li
+        key={showroom.id}
+        className="list-item"
+        onClick={() => {
+          handleListClick(showroom); // 지도 중심 이동
+          setSelectedShowroom(showroom); // 마커 클릭과 동일한 동작
+        }}
+      >
+        {showroom.name}
+      </li>
+    ))}
+  </ul>
+)}
           {!selectedShowroom && (
             <div className="pagination">
               {Array.from(
