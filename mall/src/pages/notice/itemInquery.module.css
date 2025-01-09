@@ -13,6 +13,10 @@
     margin-bottom: 20px;
 }
 
+.filter_header {
+    padding-bottom: 30px;
+}
+
 /* 주문목록 / 배송조회 */
 .mypage_date_check {
     display: flex;

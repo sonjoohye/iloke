@@ -3,8 +3,7 @@ import Footer from './Footer';
 import Header from './Header';
 
 function MainPage(props) {
-    const content = useContent(location.pathname); // useContent 훅 호출
-
+    const content = useContent(); // useContent 훅 호출
     const isMainPage = location.pathname === '/'; // 메인 페이지 확인
 
     return (

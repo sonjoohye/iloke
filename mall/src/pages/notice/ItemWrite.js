@@ -1,111 +1,91 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { insertBoardContentImage, insertBoardContent } from '../../services/api';
-
+import Quill from 'quill'; 
+import 'quill/dist/quill.snow.css'; 
+import { insertBoardContentImage } from '../../services/api';
 import styles from './ItemWrite.module.css';
 
 function ItemWrite(props) {
     const location = useLocation();
     const { code, previousPage } = location.state || {};
-    const [file, setFile] = useState(null); // 업로드할 파일 상태
-    const [title, setTitle] = useState(''); // title 상태
-    const [contents, setContents] = useState(''); // contents 상태
+    const [file, setFile] = useState(null);
+    const [title, setTitle] = useState('');
+    const [contents, setContents] = useState('');
     const userName = sessionStorage.getItem('userName');
     const userId = sessionStorage.getItem('userId');
+    const quillRef = useRef(null);
 
     useEffect(() => {
-        
+        const toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            ['link', 'image', 'video', 'formula'],
+            [{ 'header': 1 }, { 'header': 2 }],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }],
+            [{ 'size': ['small', false, 'large', 'huge'] }],
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+            ['clean']
+        ];
+
+        if (quillRef.current) {
+            const quill = new Quill(quillRef.current, {
+                theme: 'snow',
+                modules: {
+                    toolbar: toolbarOptions
+                }
+            });
+
+            quill.on('text-change', () => {
+                const html = quill.root.innerHTML; // Quill 에디터의 HTML 콘텐츠를 추출
+                setContents(html);
+            });
+        }
     }, []);
 
-    function commentSubmit(event) {
+    const handleSubmit = (event) => {
         event.preventDefault();
-        
+
         if (!title.trim()) {
             alert("제목을 입력하세요!");
             return;
         }
-        
+
         if (!contents.trim()) {
             alert("내용을 입력하세요!");
             return;
         }
-        
-        const frmDataTemp = new FormData(document.myFrm);
-        frmDataTemp.append("code", code);
-        frmDataTemp.append("userId", userId);
-        const frmData = Object.fromEntries(frmDataTemp);
-        
-        insertBoardContent(frmData)
-        .then((res) => {
-            alert("내용이 등록되었습니다.");
-            // setFile(null);  // 파일 상태 초기화
-            window.location.href = previousPage;
-        })
-        .catch((error) => {
-            console.error("Error uploading file:", error);
-            alert("내용 수정 실패!");
-        });
-    }
 
-    // 파일 선택 처리
+        const frmData = new FormData();
+        frmData.append('upfile', file); 
+        frmData.append('title', title);
+        frmData.append('contents', contents); // HTML 콘텐츠를 포함
+        frmData.append('code', code);
+        frmData.append('userId', userId);
+    
+        insertBoardContentImage(frmData)
+            .then((res) => {
+                alert("파일 업로드 성공!");
+                window.location.href = previousPage;
+            })
+            .catch((error) => {
+                console.error("Error uploading file:", error);
+                alert("파일 업로드 실패!");
+            });
+    };
+
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         setFile(selectedFile);
     };
 
-    // title 값 변경 처리
     const handleTitleChange = (e) => {
-        setTitle(e.target.value); // title 상태 업데이트
-    };
-
-    // contents 값 변경 처리
-    const handleContentsChange = (e) => {
-        setContents(e.target.value); // contents 상태 업데이트
-    };
-
-    // 폼 제출 처리
-    const submitGo = (e) => {
-        e.preventDefault(); // 이벤트 끄기
-        
-        if (!title.trim()) {
-            alert("제목을 입력하세요!");
-            return;
-        }
-        
-        if (!contents.trim()) {
-            alert("내용을 입력하세요!");
-            return;
-        }
-        
-        if (!file) {
-            commentSubmit();
-            return;
-        }
-
-        const frmData = new FormData();
-        frmData.append('upfile', file);  // 'upfile'이라는 key로 파일을 서버에 전송
-
-        // 추가적인 데이터도 전송 (예: title, contents, code, userId 등)
-        frmData.append('title', title); // 상태에서 title 값을 가져옴
-        frmData.append('contents', contents); // 상태에서 contents 값을 가져옴
-        frmData.append('code', code);
-        frmData.append('userId', userId);
-
-        for (let [key, value] of frmData.entries()) {
-            console.log(key + ': ' + value);  // 전송할 데이터 콘솔에 출력
-        }
-
-        // 파일 업로드 API 호출
-        insertBoardContentImage(frmData)
-        .then((res) => {
-            alert("파일 업로드 성공!");
-            // setFile(null);  // 파일 상태 초기화
-            window.location.href = previousPage;
-        })
-        .catch((error) => {
-            console.error("Error uploading file:", error);
-            alert("파일 업로드 실패!");
-        });
+        setTitle(e.target.value);
     };
 
     return (
@@ -114,7 +94,7 @@ function ItemWrite(props) {
                 <h2>글쓰기</h2>
                 <span>{code == "rv" ? "전체후기" : (code == "pr" ? "포토후기" : (code == "pq" ? "상품문의" : (code == "fq"? "FAQ" : (code == "nt" ? "공지사항" : "1:1문의"))))}</span>
             </div>
-            <form name='myFrm' onSubmit={submitGo}>
+            <form name='myFrm' onSubmit={handleSubmit}>
                 <table border="" className={styles.write_table}>
                     <tbody>
                         <tr>
@@ -129,8 +109,8 @@ function ItemWrite(props) {
                                         type="text" 
                                         placeholder="제목을 입력해주세요." 
                                         name="title" 
-                                        value={title} // 상태 값 바인딩
-                                        onChange={handleTitleChange} // 입력 변경 시 상태 업데이트
+                                        value={title} 
+                                        onChange={handleTitleChange} 
                                     />
                                 </label>
                             </td>
@@ -138,14 +118,7 @@ function ItemWrite(props) {
                         <tr>
                             <th>본문</th>
                             <td>
-                                <textarea 
-                                    name="contents" 
-                                    placeholder="내용" 
-                                    className={styles.textfield}  
-                                    style={{ width: '100%', height: '150px' }} 
-                                    value={contents} // 상태 값 바인딩
-                                    onChange={handleContentsChange} // 입력 변경 시 상태 업데이트
-                                />
+                                <div ref={quillRef} id="editor" className={styles.textfield}></div> {/* quillRef를 추가 */}
                             </td>
                         </tr>
                         {code === 'pr' ? (
@@ -155,7 +128,7 @@ function ItemWrite(props) {
                                     <input className={styles.file_upload} type="file" name="upfile" onChange={handleFileChange} />
                                 </td>
                             </tr>
-                        ):( <></> )}
+                        ) : null}
                     </tbody>
                 </table>
 
@@ -163,9 +136,7 @@ function ItemWrite(props) {
                     <button type="button" className={styles.btn_before} onClick={() => window.location.href = previousPage}>
                         <strong className={styles.itone}>목록으로</strong>
                     </button>
-                    {code === 'pr' ? (
-                        <input className={styles.btn_write} style={{margin:"5px"}} type="submit" value="저장" />
-                    ):( <button className={styles.btn_write} onClick={commentSubmit}><strong className={styles.ittwo}>저장</strong></button> )}
+                    <input className={styles.btn_write} style={{ margin: "5px" }} type="submit" value="저장" />
                 </div>
             </form>
         </div>

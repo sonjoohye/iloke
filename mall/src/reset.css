@@ -69,7 +69,7 @@ input[type='text'],
 input[type='number'],
 input[type='password'],
 input[type='file'],
-textarea{padding: 5px;width: 100%; outline: none;}
+textarea{padding: 5px;width: 100%; outline: none;resize: none;}
 
 select{border: 1px solid #cccccc; outline: none;}
 input:focus,

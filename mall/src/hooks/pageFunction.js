@@ -20,15 +20,15 @@ import GoodsList from '../pages/goods/GoodsList';
 import GoodsDetail from '../pages/goods/GoodsDetail';
 import MemModify1 from '../pages/member/memModify1';
 import MemModify2 from '../pages/member/memModify2';
-// import Button from '../pages/order/Button';
 import CustomerReview from '../pages/notice/CustomerReview';
 import NoticePage from '../pages/notice/NoticePage';
-import PhotoReview from '../pages/notice/PhotoReview.js';
+import PhotoReview from '../pages/notice/PhotoReview';
 import ItemInquery from '../pages/notice/ItemInquery';
 import Faq from '../pages/notice/Faq';
 import OneInquery from '../pages/notice/OneInquery';
 import ItemWrite from '../pages/notice/ItemWrite';
 import BoardDetails from '../pages/notice/BoardDetails';
+import ItemDetail from '../pages/notice/ItemDetail'; // 추가된 컴포넌트
 
 export function useContent() {
     const [content, setContent] = useState(<Home />);
@@ -65,18 +65,11 @@ export function useContent() {
             setContent(<MemDelete />); // 회원탈퇴 페이지 경로 추가
         } else if (path === "/goods/goodsList") {
             setContent(<GoodsList />);
-        // } else if (path === "/button") {
-        //     setContent(<Button />);
         } else if (path === "/memModify1") {
             setContent(<MemModify1 />); // 회원정보수정 인증 페이지 경로 추가
         } else if (path === "/memModify2") {
             setContent(<MemModify2 />); // 회원정보수정 페이지 경로 추가
-        } 
-        
-//         else if (path === "/goods/goodsList/goodsDetail") {
-//             setContent(<GoodsDetail />);
-// } 
-else if (path === "/notice/customer_review") {   // 전체후기
+        } else if (path === "/notice/customer_review") {   // 전체후기
             setContent(<CustomerReview />);
         } else if (path === "/notice/photoReview") {   // 포토후기
             setContent(<PhotoReview />);
@@ -92,6 +85,8 @@ else if (path === "/notice/customer_review") {   // 전체후기
             setContent(<Faq />);
         } else if (path === "/notice/one_inquery") {   // 1:1문의
             setContent(<OneInquery />);
+        } else if (path === "/detail/:id") {   // 상세 페이지
+            setContent(<ItemDetail />);
         }
 
         // 📢 /orderend/:order_id 경로 처리
@@ -118,7 +113,6 @@ else if (path === "/notice/customer_review") {   // 전체후기
         // /goods/goodsList:id 이동 처리
         const matchGoodsDetail = path.match(/^\/goodsDetail\/([^/]+)$/);
         if (matchGoodsDetail) {
-            // console.log(matchGoodsDetail)
             const id = matchGoodsDetail[1];
             setContent(<GoodsDetail id={id} />);
         }
