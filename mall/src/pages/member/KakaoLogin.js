@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import styles from './login.module.scss';
 
 const KakaoLogin = () => {
-
-  // 하드코딩된 환경 변수 값
   const REST_API_KEY = "4c0a1fd995d48357daf4967bf25d50cb";
   const REDIRECT_URI = "http://localhost:5500/KakaoLogin";
 
@@ -73,7 +71,13 @@ const KakaoLogin = () => {
       if (response.ok) {
         const userInfo = await response.json();
         console.log("사용자 정보:", userInfo);
-        saveLoginStatus(userInfo);
+        // 로그인 상태를 세션에 저장
+        sessionStorage.setItem('kakaoId', userInfo.id);
+        sessionStorage.setItem('email', userInfo.kakao_account?.email || null);
+        sessionStorage.setItem('nickname', userInfo.properties?.nickname || 'unknown');
+        alert(`환영합니다, ${userInfo.properties?.nickname || '사용자'}님!`);
+        // 필요한 경우 리디렉션
+        window.location.href = '/home';
       } else {
         console.error("사용자 정보 요청 실패:", response.statusText);
       }
@@ -81,34 +85,6 @@ const KakaoLogin = () => {
       console.error("사용자 정보 요청 중 오류 발생:", error);
     }
   };
-
-  const saveLoginStatus = async (userInfo) => {
-    const payload = {
-      kakaoId: userInfo.id,
-      email: userInfo.kakao_account?.email || null,
-      nickname: userInfo.properties?.nickname || 'unknown',
-    };
-  
-    console.log("백엔드로 전송될 데이터:", payload);
-  
-    const response = await fetch(`${process.env.REACT_APP_BACK_URL}/api/login/kakao`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-  
-    if (response.ok) {
-      const result = await response.json();
-      console.log("회원가입 성공:", result);
-    } else {
-      const errorText = await response.text();
-      console.error("회원가입 실패:", response.statusText, errorText);
-    }
-  };
-  
-  
 
   return (
     <div>
