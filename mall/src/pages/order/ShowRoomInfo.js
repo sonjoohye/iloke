@@ -132,8 +132,10 @@ console.log("All Showrooms:", allShowrooms);
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />
-        <button onClick={handleSearch}>검색</button>
-        <button onClick={handleReset}>초기화</button>
+        <div className='map-btnWrap'>
+          <button onClick={handleSearch}>검색</button>
+          <button onClick={handleReset}>초기화</button>
+        </div>
       </div>
       <div className="map-container">
         <div id="map" style={{ width: '70%', height: '500px', display: 'inline-block' }}></div>
