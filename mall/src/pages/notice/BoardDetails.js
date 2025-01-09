@@ -149,12 +149,12 @@ const BoardDetails = () => {
       ) : null}
       <hr />
       {code === 'pq'|| code === 'ui'|| code ==='pr' || code ==='rv' ? (
-        <button onClick={commentSubmit}>수정</button>
+        <button onClick={commentSubmit} className={styles.board_btn1}>수정</button>
       ) : null}
       {code === 'pq' || code === 'ui'|| code ==='pr' || code ==='rv' ? (
-        <button onClick={delBoard}>삭제</button>
+        <button onClick={delBoard}className={styles.board_btn2}>삭제</button>
       ) : null}
-      <button onClick={() => navigate(previousPage)}>목록으로</button>
+      <button onClick={() => navigate(previousPage)} className={styles.board_btn3}>목록으로</button>
     </div>
   );
 };

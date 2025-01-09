@@ -216,21 +216,6 @@
     margin-left: 15px;
 }
 
-.map-btnWrap {
-    margin: 10px 0;
-}
-
-.map-btnWrap button {
-    margin: 0;
-    border: 1px solid #777;
-    border-radius: 4px;
-}
-.map-btnWrap button:first-child{
-    margin-right: 10px;
-    background: #777;
-    color: #fff;
-}
-
 
 /* 기본 스타일 (800px 이상일 때 모든 th와 td가 보임) */
 /* .table_div table th,
