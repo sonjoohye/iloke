@@ -23,6 +23,13 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     position: relative; /* 닫기 버튼을 배치하기 위해 */
   }
+
+  /* 주소 선택 버튼 */
+  .select_button {
+    background: #777;
+    color: #fff;
+    border-radius: 4px;
+  }
   
   /* 닫기 버튼 */
   .close_button {
