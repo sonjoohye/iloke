@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { memLogin } from '../../services/api';
-import KakaoLogin from './KakaoLogin';
 import KakaoLoginButton from './KakaoLoginButton';
 import styles from './login.module.scss';
 import axios from 'axios';
@@ -12,7 +11,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   // 카카오 로그인 후처리
-    const handleKakaoLoginCallback = async () => {
+  const handleKakaoLoginCallback = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
 
@@ -25,8 +24,8 @@ const Login = () => {
           {
             params: {
               grant_type: 'authorization_code',
-              client_id: '4c0a1fd995d48357daf4967bf25d50cb',
-              redirect_uri: 'http://localhost:5500/KakaoLogin',
+              client_id: process.env.REACT_APP_KAKAO_REST_API_KEY,
+              redirect_uri: process.env.REACT_APP_REDIRECT_URI,
               code,
             },
             headers: {
@@ -51,7 +50,7 @@ const Login = () => {
         const kakaoId = userResponse.data.id;
 
         // 기존 사용자 정보와 매칭 시도
-        const response = await axios.post('/api/login/kakao', {
+        const response = await axios.post(`${process.env.REACT_APP_BACK_URL}/api/login/kakao`, {
           kakaoId,
           email: kakaoAccount.email,
         });
@@ -67,7 +66,7 @@ const Login = () => {
         } else {
           // 매칭 실패: 신규 회원 등록 절차
           if (window.confirm('카카오 계정과 연동된 회원 정보가 없습니다. 새 계정을 생성하시겠습니까?')) {
-            const registerResponse = await axios.post('/api/register/kakao', {
+            const registerResponse = await axios.post(`${process.env.REACT_APP_BACK_URL}/api/register/kakao`, {
               kakaoId,
               email: kakaoAccount.email,
               nickname: kakaoAccount.profile.nickname,
@@ -77,7 +76,7 @@ const Login = () => {
               alert('회원가입이 완료되었습니다. 로그인 중입니다...');
   
               // 회원가입 성공 후 자동 로그인 요청
-              const loginResponse = await axios.post('/api/login/kakao', {
+              const loginResponse = await axios.post(`${process.env.REACT_APP_BACK_URL}/api/login/kakao`, {
                 kakaoId,
                 email: kakaoAccount.email,
               });
@@ -135,8 +134,6 @@ const Login = () => {
     }
   };
 
-
-  
   return (
     <section className={styles.loginSection}>
       <div className={styles.loginContainer}>
