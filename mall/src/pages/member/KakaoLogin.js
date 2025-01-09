@@ -37,13 +37,6 @@ const KakaoLogin = () => {
 
 
     try {
-
-      const params = new URLSearchParams();
-params.append("grant_type", "authorization_code");
-params.append("client_id", "YOUR_CLIENT_ID");
-params.append("redirect_uri", "YOUR_REDIRECT_URI");
-params.append("code", "YOUR_AUTHORIZATION_CODE");
-
       const response = await fetch(tokenUrl, {
         method: "POST",
         headers: {

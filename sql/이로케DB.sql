@@ -456,3 +456,26 @@ INSERT INTO mem_info (
   '브론즈',          -- 기본 회원 등급
   'system'          -- 작성자는 시스템으로 설정
 );
+
+CREATE TABLE showrooms (
+    id INT AUTO_INCREMENT PRIMARY KEY,       -- 고유 ID, 자동 증가
+    name VARCHAR(255) NOT NULL,             -- 쇼룸 이름
+    address VARCHAR(255) NOT NULL,          -- 주소
+    phone VARCHAR(20),                      -- 전화번호
+    hours VARCHAR(50),                      -- 영업 시간
+    image VARCHAR(255),                     -- 이미지 경로 또는 URL
+    lat DECIMAL(10, 8) NOT NULL,            -- 위도
+    lng DECIMAL(11, 8) NOT NULL             -- 경도
+);
+INSERT INTO showrooms (name, address, phone, hours, image, lat, lng)
+VALUES
+('인천하늘점', '인천광역시 남동구 하늘로 10', '032-111-1234', '09:00-21:00', 'https://example.com/images/sky.jpg', 37.445687, 126.704544),
+('인천공룡점', '인천광역시 남동구 공룡로 20', '032-222-1234', '10:00-22:00', 'https://example.com/images/dino.jpg', 37.448923, 126.707456),
+('인천바다점', '인천광역시 남동구 바다로 30', '032-333-1234', '08:00-20:00', 'https://example.com/images/sea.jpg', 37.442876, 126.710234),
+('인천별점', '인천광역시 남동구 별로 40', '032-444-1234', '09:30-22:30', 'https://example.com/images/star.jpg', 37.450123, 126.702345),
+('인천숲점', '인천광역시 남동구 숲로 50', '032-555-1234', '09:00-19:00', 'https://example.com/images/forest.jpg', 37.447654, 126.705678),
+('인천꽃점', '인천광역시 남동구 꽃로 60', '032-666-1234', '10:00-20:00', 'https://example.com/images/flower.jpg', 37.446789, 126.709876),
+('인천해변점', '인천광역시 남동구 해변로 70', '032-777-1234', '08:00-21:00', 'https://example.com/images/beach.jpg', 37.449876, 126.706543),
+('인천산점', '인천광역시 남동구 산로 80', '032-888-1234', '09:00-18:00', 'https://example.com/images/mountain.jpg', 37.451234, 126.703212),
+('인천호수점', '인천광역시 남동구 호수로 90', '032-999-1234', '10:00-22:00', 'https://example.com/images/lake.jpg', 37.443987, 126.708976),
+('인천구름점', '인천광역시 남동구 구름로 100', '032-101-1234', '09:00-20:30', 'https://example.com/images/cloud.jpg', 37.444321, 126.707654);
