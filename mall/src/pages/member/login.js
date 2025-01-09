@@ -178,7 +178,6 @@ const Login = () => {
 
         <div className={styles.snsLoginSection}>
           <div className={styles.snsLoginTitle}>SNS 간편 로그인</div>
-          <button className={`${styles.snsButton} ${styles.naver}`}>네이버 아이디 로그인</button>
           <KakaoLoginButton />
         </div>
       </div>
