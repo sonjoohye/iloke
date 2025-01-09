@@ -28,6 +28,9 @@ import Faq from '../pages/notice/Faq';
 import OneInquery from '../pages/notice/OneInquery';
 import ItemWrite from '../pages/notice/ItemWrite';
 import BoardDetails from '../pages/notice/BoardDetails';
+
+import OAuthRedirect from '../pages/member/OAuthRedirect';
+import KakaoLogin from '../pages/member/KakaoLogin';
 import ItemDetail from '../pages/notice/ItemDetail'; // 추가된 컴포넌트
 
 export function useContent() {
@@ -47,7 +50,14 @@ export function useContent() {
             setContent(<Order />);
         } else if (path === "/login") {
             setContent(<Login />);
-        } else if (path === "/join") {
+        }
+        else if (path === "/KakaoLogin") {
+            setContent(<KakaoLogin />); // Redirect URI와 KakaoLogin 컴포넌트 매핑
+        }
+        else if (path === "/oauth"){
+            setContent(<OAuthRedirect />);
+        }
+        else if (path === "/join") {
             setContent(<Join />);
         } else if (path === "/joinMethod") {
             setContent(<JoinMethod />);
@@ -65,10 +75,18 @@ export function useContent() {
             setContent(<MemDelete />); // 회원탈퇴 페이지 경로 추가
         } else if (path === "/goods/goodsList") {
             setContent(<GoodsList />);
+            // } else if (path === "/button") {
+            //     setContent(<Button />);
         } else if (path === "/memModify1") {
             setContent(<MemModify1 />); // 회원정보수정 인증 페이지 경로 추가
         } else if (path === "/memModify2") {
             setContent(<MemModify2 />); // 회원정보수정 페이지 경로 추가
+        }
+
+        //         else if (path === "/goods/goodsList/goodsDetail") {
+        //             setContent(<GoodsDetail />);
+        // } 
+        else if (path === "/notice/customer_review") {   // 전체후기
         } else if (path === "/notice/customer_review") {   // 전체후기
             setContent(<CustomerReview />);
         } else if (path === "/notice/photoReview") {   // 포토후기
@@ -96,7 +114,7 @@ export function useContent() {
             setContent(<OrderEnd orderId={orderId} />); // 📢 orderId를 컴포넌트에 전달
         }
 
-         // /findId2/:id 이동 처리
+        // /findId2/:id 이동 처리
         const matchFindId2 = path.match(/^\/findId2\/([^/]+)$/);
         if (matchFindId2) {
             const id = matchFindId2[1];
