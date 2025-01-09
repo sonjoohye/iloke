@@ -2,8 +2,10 @@ import React, { useEffect } from 'react'
 import styles from './login.module.scss';
 
 const KakaoLogin = () => {
-  const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
-  const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+
+  // 하드코딩된 환경 변수 값
+  const REST_API_KEY = "4c0a1fd995d48357daf4967bf25d50cb";
+  const REDIRECT_URI = "http://localhost:5500/KakaoLogin";
 
   console.log("REST_API_KEY:", REST_API_KEY);
   console.log("REDIRECT_URI:", REDIRECT_URI);
