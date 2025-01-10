@@ -160,7 +160,12 @@ function OneInquery(props) {
                                 <td>{item.id}</td>
                                 <td>{item.title}</td>
                                 <td>{item.read_no}</td>
-                                <td>{item.reg_id}</td>
+                                <td>
+                            {sessionStorage.getItem('userType') === 'kakao'
+                                ? sessionStorage.getItem('nickname') || '알 수 없는 사용자' // 카카오 닉네임 표시
+                                : userName || '알 수 없는 사용자' // 일반 사용자 이름 표시
+                            }
+                        </td>
                                 <td>{item.reg_date}</td>
                                 <td style={{color: item.comment_yn === '답변완료' ? 'blue' : 'red'}}>
                                     {item.comment_yn}

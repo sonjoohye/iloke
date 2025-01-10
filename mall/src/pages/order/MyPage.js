@@ -134,21 +134,31 @@ const totalPages = Math.ceil(totalOrders / ordersPerPage); // 총 페이지 수 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        let response;
-        if (sessionStorage.getItem('userId')) {
-          response = await rFetchMemberUserInfo(memberId);
-          setUserInfo(response.data.userInfo);
-        } else if (sessionStorage.getItem('kakaoId')) {
-          const nickname = sessionStorage.getItem('nickname');
+        const userType = sessionStorage.getItem('userType');
+        if (userType === 'member') {
+          const memberId = sessionStorage.getItem('userId');
+          console.log('Fetching user info for general member:', memberId);
+  
+          const response = await rFetchMemberUserInfo(memberId);
+          if (response && response.data && response.data.userInfo) {
+            setUserInfo(response.data.userInfo);
+          } else {
+            console.error('Invalid response format:', response);
+          }
+        } else if (userType === 'kakao') {
+          const nickname = sessionStorage.getItem('nickname') || 'Unknown User';
+          console.log('Fetching user info for Kakao user:', nickname);
+  
           const userInfo = { name: nickname, m_remain: 0, type: '카카오 유저' };
           setUserInfo(userInfo);
+        } else {
+          console.warn('No userType found in sessionStorage.');
         }
       } catch (error) {
-        console.error(" 사용자 정보 가져오기 오류:", error.message);
-        console.error(' 전체 에러 정보:', error); // 전체 에러 정보 확인 (stack trace 포함)
+        console.error('Error fetching user info:', error);
       }
     };
-
+  
     fetchUserInfo();
   }, []);
 

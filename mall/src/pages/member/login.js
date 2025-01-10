@@ -124,6 +124,7 @@ const Login = () => {
         const userName = response.data.user.name;
         sessionStorage.setItem('userId', id);
         sessionStorage.setItem('userName', userName);
+        sessionStorage.setItem('userType', 'member'); // 사용자 유형 저장
         sessionStorage.setItem('auth', 'true');
         window.dispatchEvent(new Event('storage'));
         alert(`${userName}님, 환영합니다!`);

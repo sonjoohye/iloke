@@ -7,6 +7,7 @@ import './BoardAnswerPage.css';
 
 
 const BoardAnswerPage = () => {
+  
   const [boards, setBoards] = useState([]); // 게시판 데이터
   const [selectedCode, setSelectedCode] = useState('rv'); // 선택된 코드
   const [listCode, setListCode] = useState(null); // 선택된 코드
@@ -190,7 +191,11 @@ const BoardAnswerPage = () => {
                 ) : (
                   <td>{item.read_no}</td>
                 )}
-                <td>{item.reg_id}</td>
+              <td>
+  {sessionStorage.getItem('userType') === 'kakao' && sessionStorage.getItem('nickname')
+    ? sessionStorage.getItem('nickname') // nickname 출력
+    : item.reg_id} // 일반 사용자 출력
+</td>
                 <td>{item.reg_date}</td>
                 {listCode === 'pq' || listCode === 'ui' ? (
                   <td style={{color: item.comment_yn === '답변완료' ? 'blue' : 'red'}}>
