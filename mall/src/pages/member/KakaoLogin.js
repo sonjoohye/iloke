@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import styles from './login.module.scss';
 
 const KakaoLogin = () => {
-
-  // 하드코딩된 환경 변수 값
   const REST_API_KEY = "4c0a1fd995d48357daf4967bf25d50cb";
   const REDIRECT_URI = "http://localhost:5500/KakaoLogin";
 
@@ -88,9 +86,9 @@ const KakaoLogin = () => {
       email: userInfo.kakao_account?.email || null,
       nickname: userInfo.properties?.nickname || 'unknown',
     };
-  
+
     console.log("백엔드로 전송될 데이터:", payload);
-  
+
     const response = await fetch(`${process.env.REACT_APP_BACK_URL}/api/login/kakao`, {
       method: "POST",
       headers: {
@@ -98,20 +96,21 @@ const KakaoLogin = () => {
       },
       body: JSON.stringify(payload),
     });
-  
+
+    console.log("테스트:", response.ok);
+
+
     if (response.ok) {
       const result = await response.json();
-      console.log("회원가입 성공:", result);
+      console.log("로그인 상태 업데이트 성공:", result);
     } else {
       const errorText = await response.text();
-      console.error("회원가입 실패:", response.statusText, errorText);
+      console.error("로그인 상태 업데이트 실패:", response.statusText, errorText);
     }
   };
-  
-  
 
   return (
-    <div>
+    <div className={styles.loginContainer}>
       <h1>카카오 로그인 처리 중...</h1>
     </div>
   );

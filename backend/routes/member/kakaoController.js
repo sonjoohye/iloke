@@ -7,24 +7,27 @@ router.post('/', async (req, res) => {
   const { kakaoId } = req.body;
 
   try {
+    console.log('kakao login 접근')
     if (!kakaoId) {
       return res.status(400).json({ success: false, message: '필수 데이터가 누락되었습니다.' });
     }
 
-    console.log('Received kakaoId:', kakaoId);
+    const kakaoUserId = `kakao_${kakaoId}`;
 
-    // 사용자 확인 (email 필드 기준)
-    const [existingUser] = await db.query('SELECT * FROM mem_info WHERE email = ?', [kakaoId]);
-    console.log('Existing user query result:', existingUser);
+    console.log('Received kakaoId:', kakaoUserId);
 
-    if (existingUser.length === 0) {
-      return res.status(400).json({ success: false, message: '회원가입되지 않은 사용자입니다.' });
-    }
+    // 사용자 확인 (ID 필드 기준)
+    // const [existingUser] = await db.query('SELECT * FROM mem_info WHERE id = ?', [kakaoUserId]);
+    // console.log('Existing user query result:', existingUser);
+
+    // if (existingUser.length === 0) {
+    //   return res.status(400).json({ success: false, message: '회원가입되지 않은 사용자입니다.' });
+    // }
 
     // 로그인 상태 업데이트 (최근 접속 시간 갱신)
     const [result] = await db.query(
-      'UPDATE mem_info SET last_date = NOW() WHERE email = ?',
-      [kakaoId]
+      'UPDATE mem_info SET last_date = NOW() WHERE id = ?',
+      [kakaoUserId]
     );
     console.log('Update result:', result);
 

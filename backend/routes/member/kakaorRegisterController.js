@@ -12,17 +12,23 @@ router.post('/', async (req, res) => {
   }
 
   try {
+    const kakaoUserId = `kakao_${kakaoId}`;
+    console.log('생성된 사용자 ID:', kakaoUserId);
+
     // 중복 가입 확인
-    const existingUser = await db.query('SELECT * FROM mem_info WHERE id = ? OR email = ?', [`kakao_${kakaoId}`, email]);
+    const existingUser = await db.query('SELECT * FROM mem_info WHERE id = ? OR email = ?', [kakaoUserId, email]);
+    console.log('중복 사용자 조회 결과:', existingUser);
+
     if (existingUser.length > 0) {
       return res.status(400).json({ success: false, message: '이미 가입된 사용자입니다.' });
     }
 
     // 신규 회원 등록
     const result = await db.query(
-      'INSERT INTO mem_info (id, email, nick, role, type, level, join_date, reg_id) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)',
-      [`kakao_${kakaoId}`, email || null, nickname, '회원', '일반', '브론즈', 'system']
+      'INSERT INTO mem_info (id, pw, email, nick, role, type, level, join_date, reg_id) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?)',
+      [kakaoUserId, 'kakao_default_pw', email || null, nickname, '회원', '일반', '브론즈', 'system']
     );
+    console.log('회원가입 결과:', result);
 
     if (result.affectedRows > 0) {
       res.json({ success: true, message: '회원가입이 완료되었습니다.' });
@@ -34,6 +40,4 @@ router.post('/', async (req, res) => {
     res.status(500).json({ success: false, message: '서버 오류가 발생했습니다.' });
   }
 });
-
-
 module.exports = router;

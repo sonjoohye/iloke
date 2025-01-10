@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 async function registerKakaoUser(kakaoId, email, nickname) {
-  const url = `${process.env.REACT_APP_BACK_URL}/register/kakao`;
+  const url = `${process.env.REACT_APP_BACK_URL}/api/register/kakao`;
   const data = { kakaoId, email, nickname };
 
   try {
@@ -15,7 +15,7 @@ async function registerKakaoUser(kakaoId, email, nickname) {
 }
 
 async function loginKakaoUser(kakaoId) {
-  const url = `${process.env.REACT_APP_BACK_URL}/login/kakao`;
+  const url = `${process.env.REACT_APP_BACK_URL}/api/login/kakao`;
   const data = { kakaoId };
 
   try {
