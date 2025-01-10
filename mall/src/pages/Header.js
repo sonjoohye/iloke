@@ -12,16 +12,17 @@ import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!sessionStorage.getItem('userName'));
-  const [username, setUsername] = useState(sessionStorage.getItem('userName') || '');
+  const [isLoggedIn, setIsLoggedIn] = useState(!!sessionStorage.getItem('userName') || !!sessionStorage.getItem('nickname'));
+  const [username, setUsername] = useState(sessionStorage.getItem('userName') || sessionStorage.getItem('nickname') || '');
   const navigate = useNavigate();
 
   // storage 이벤트를 감지해 로그인 상태 업데이트
   useEffect(() => {
     const handleStorageChange = () => {
       const storedUserName = sessionStorage.getItem('userName');
-      setIsLoggedIn(!!storedUserName);
-      setUsername(storedUserName || '');
+      const storedNickname = sessionStorage.getItem('nickname');
+      setIsLoggedIn(!!storedUserName || !!storedNickname);
+      setUsername(storedUserName || storedNickname || '');
     };
 
     window.addEventListener('storage', handleStorageChange);
