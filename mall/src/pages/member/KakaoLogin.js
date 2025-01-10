@@ -72,7 +72,7 @@ const KakaoLogin = () => {
         const userInfo = await response.json();
         console.log("사용자 정보:", userInfo);
         // 로그인 상태를 세션에 저장
-        sessionStorage.setItem('kakaoId', userInfo.id);
+        sessionStorage.setItem('userId', userInfo.id); // kakaoid->userid 
         sessionStorage.setItem('email', userInfo.kakao_account?.email || null);
         sessionStorage.setItem('nickname', userInfo.properties?.nickname || 'unknown');
         alert(`환영합니다, ${userInfo.properties?.nickname || '사용자'}님!`);

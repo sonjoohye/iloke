@@ -46,6 +46,8 @@ const Login = () => {
           }
         );
 
+        
+
         const kakaoAccount = userResponse.data.kakao_account;
         const kakaoId = userResponse.data.id;
 
