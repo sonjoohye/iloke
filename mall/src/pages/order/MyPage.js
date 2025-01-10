@@ -38,7 +38,7 @@ const returnReasons = ['단순 변심', '상품 불량', '사이즈 안 맞음',
 const [showMileageTable, setShowMileageTable] = useState(false);
 const [mileageHistory, setMileageHistory] = useState([]);
 
-const memberId = sessionStorage.getItem('userId');
+const memberId = sessionStorage.getItem('userId') || sessionStorage.getItem('kakaoId');
 
 const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
 
@@ -130,25 +130,27 @@ const handleNextPage = () => {
 const totalPages = Math.ceil(totalOrders / ordersPerPage); // 총 페이지 수 계산
 
 
-// 상단 회원이름,마일리지 가져오기
-useEffect(() => {
-  const fetchUserInfo = async () => {
-    try {
-     
+  // 상단 회원이름, 마일리지 가져오기 함수 업데이트
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        let response;
+        if (sessionStorage.getItem('userId')) {
+          response = await rFetchMemberUserInfo(memberId);
+          setUserInfo(response.data.userInfo);
+        } else if (sessionStorage.getItem('kakaoId')) {
+          const nickname = sessionStorage.getItem('nickname');
+          const userInfo = { name: nickname, m_remain: 0, type: '카카오 유저' };
+          setUserInfo(userInfo);
+        }
+      } catch (error) {
+        console.error(" 사용자 정보 가져오기 오류:", error.message);
+        console.error(' 전체 에러 정보:', error); // 전체 에러 정보 확인 (stack trace 포함)
+      }
+    };
 
-      const response = await rFetchMemberUserInfo(memberId);
-
-    
-      
-      setUserInfo(response.data.userInfo);
-    } catch (error) {
-      console.error(" 사용자 정보 가져오기 오류:", error.message); // 에러 메시지만 출력
-      console.error(' 전체 에러 정보:', error); // 전체 에러 정보 확인 (stack trace 포함)
-    }
-  };
-
-  fetchUserInfo();
-}, []);
+    fetchUserInfo();
+  }, []);
 
 
 // 날짜 필터 기능 시작
