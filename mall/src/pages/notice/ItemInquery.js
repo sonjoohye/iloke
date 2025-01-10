@@ -155,11 +155,11 @@ function ItemInquery(props) {
                                 <td>{item.title}</td>
                                 <td>{item.read_no}</td>
                                 <td>
-                            {sessionStorage.getItem('userType') === 'kakao'
-                                ? sessionStorage.getItem('nickname') || '알 수 없는 사용자' // 카카오 닉네임 표시
-                                : userName || '알 수 없는 사용자' // 일반 사용자 이름 표시
-                            }
-                        </td>
+  {item.reg_id === sessionStorage.getItem('userId') && sessionStorage.getItem('userType') === 'kakao'
+    ? sessionStorage.getItem('nickname') || '알 수 없는 사용자' // 내가 작성한 글이라면 카카오 닉네임 표시
+    : item.reg_id // 다른 사용자가 작성한 글은 원래 등록된 ID 표시
+  }
+</td>
                                 <td>{item.reg_date}</td>
                                 <td style={{color: item.comment_yn === '답변완료' ? 'blue' : 'red'}}>
                                     {item.comment_yn}

@@ -192,9 +192,10 @@ const BoardAnswerPage = () => {
                   <td>{item.read_no}</td>
                 )}
               <td>
-  {sessionStorage.getItem('userType') === 'kakao' && sessionStorage.getItem('nickname')
-    ? sessionStorage.getItem('nickname') // nickname 출력
-    : item.reg_id} // 일반 사용자 출력
+  {item.reg_id === sessionStorage.getItem('userId') && sessionStorage.getItem('userType') === 'kakao'
+    ? sessionStorage.getItem('nickname') || '알 수 없는 사용자' // 내가 작성한 글이라면 카카오 닉네임 표시
+    : item.reg_id // 다른 사용자가 작성한 글은 원래 등록된 ID 표시
+  }
 </td>
                 <td>{item.reg_date}</td>
                 {listCode === 'pq' || listCode === 'ui' ? (

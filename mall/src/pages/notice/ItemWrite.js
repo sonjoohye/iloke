@@ -100,15 +100,17 @@ function ItemWrite(props) {
                         <tr>
                             <th>작성자</th>
                             <td>
-                            {sessionStorage.getItem('userType') === 'kakao'
-                                ? sessionStorage.getItem('nickname') || '알 수 없는 사용자' // 카카오 닉네임 표시
-                                : userName || '알 수 없는 사용자' // 일반 사용자 이름 표시
-                            }
-                        </td>
+  {sessionStorage.getItem('userType') === 'kakao'
+    ? sessionStorage.getItem('nickname') || '알 수 없는 사용자' // 카카오 닉네임 표시
+    : userName || '알 수 없는 사용자' // 일반 사용자 이름 표시
+  }
+</td>
                         </tr>
                         <tr>
                             <th>제목</th>
                             <td>
+
+                                
                                 <label className={styles.title_label} htmlFor="name_title">
                                     <input 
                                         type="text" 
