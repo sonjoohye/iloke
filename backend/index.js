@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
-const session = require('express-session');
+const session = require('express-session'); // 세션 모듈 추가
 const upload = require("./utils/uploadUtil_bak");
 const conn = require('./utils/dbUtil');
 
@@ -41,7 +41,6 @@ const mileageHistoryController = require('./routes/member/mileageController');  
 const goodsRoutes = require('./routes/products/goodsController'); // 쇼핑몰 상품 리스트
 
 const kakaoController = require('./routes/member/kakaoController');
-const kakaorRegisterController = require('./routes/member/kakaorRegisterController');
 
 const app = express();
 
@@ -109,7 +108,6 @@ app.use('/mall/mileage', mileageHistoryController);  // 마이페이지 마일�
 
 // 카카오 로그인 라우터
 app.use('/api/login/kakao', kakaoController);
-app.use('/api/register/kakao', kakaorRegisterController);
 
 // 쇼핑몰 상품 리스트
 app.use('/mall/goods/goodsList', goodsRoutes); // 상품 리스트

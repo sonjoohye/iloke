@@ -71,41 +71,18 @@ const KakaoLogin = () => {
       if (response.ok) {
         const userInfo = await response.json();
         console.log("사용자 정보:", userInfo);
-        saveLoginStatus(userInfo);
+        // 로그인 상태를 세션에 저장
+        sessionStorage.setItem('kakaoId', userInfo.id);
+        sessionStorage.setItem('email', userInfo.kakao_account?.email || null);
+        sessionStorage.setItem('nickname', userInfo.properties?.nickname || 'unknown');
+        alert(`환영합니다, ${userInfo.properties?.nickname || '사용자'}님!`);
+        // 필요한 경우 리디렉션
+        window.location.href = '/home';
       } else {
         console.error("사용자 정보 요청 실패:", response.statusText);
       }
     } catch (error) {
       console.error("사용자 정보 요청 중 오류 발생:", error);
-    }
-  };
-
-  const saveLoginStatus = async (userInfo) => {
-    const payload = {
-      kakaoId: userInfo.id,
-      email: userInfo.kakao_account?.email || null,
-      nickname: userInfo.properties?.nickname || 'unknown',
-    };
-
-    console.log("백엔드로 전송될 데이터:", payload);
-
-    const response = await fetch(`${process.env.REACT_APP_BACK_URL}/api/login/kakao`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    console.log("테스트:", response.ok);
-
-
-    if (response.ok) {
-      const result = await response.json();
-      console.log("로그인 상태 업데이트 성공:", result);
-    } else {
-      const errorText = await response.text();
-      console.error("로그인 상태 업데이트 실패:", response.statusText, errorText);
     }
   };
 
