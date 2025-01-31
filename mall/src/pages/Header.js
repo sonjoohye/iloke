@@ -16,6 +16,28 @@ function Header() {
   const [username, setUsername] = useState(sessionStorage.getItem('userName') || sessionStorage.getItem('nickname') || '');
   const navigate = useNavigate();
 
+  const [cartCount, setCartCount] = useState(0); // 🛒 장바구니 개수 상태 추가
+
+// 장바구니 개수 업데이트 함수
+const updateCartCount = () => {
+  const cartData = JSON.parse(sessionStorage.getItem("cartItems") || "[]");
+  setCartCount(cartData.length);
+};
+
+// storage 이벤트를 감지해 장바구니 숫자 업데이트
+useEffect(() => {
+  const handleStorageChange = () => {
+    updateCartCount(); // 🛒 장바구니 개수 업데이트
+  };
+
+  window.addEventListener('storage', handleStorageChange);
+  updateCartCount(); // 초기 로드 시 업데이트
+
+  return () => {
+    window.removeEventListener('storage', handleStorageChange);
+  };
+}, [])
+
   // storage 이벤트를 감지해 로그인 상태 업데이트
   useEffect(() => {
     const handleStorageChange = () => {
@@ -165,11 +187,11 @@ function Header() {
                 </Link> */}
               </li>
               <li className="shop">
-                <Link to="/cart">
-                  <i className="fa-solid fa-cart-shopping"></i>
-                  <span>0</span>
-                </Link>
-              </li>
+  <Link to="/cart">
+    <i className="fa-solid fa-cart-shopping"></i>
+    <span>{cartCount}</span> {/* 🛒 장바구니 개수 반영 */}
+  </Link>
+</li>
               <li>
                 <Link to="/goods/myPage" >
                   <i className="fa-solid fa-user-large"></i>
