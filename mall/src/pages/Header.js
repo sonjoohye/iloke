@@ -76,10 +76,11 @@ useEffect(() => {
             {isLoggedIn ? (
               <span id="welcomeMessage">{username}님, 환영합니다.</span>
             ) : (
-              <Link to="/joinMethod" id="join">
+              <Link to="/joinMethod" >
                 회원가입
               </Link>
             )}
+            {/* id="join" */}
           </li>
           <li>
             {isLoggedIn ? (
@@ -87,9 +88,10 @@ useEffect(() => {
                 로그아웃
               </Link>
             ) : (
-              <Link to="/login" id="loginYn">
+              <Link to="/login" >
                 로그인
               </Link>
+              // id="loginYn"
             )}
           </li>
         </ul>
