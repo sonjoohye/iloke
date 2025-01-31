@@ -171,7 +171,7 @@ function Header() {
                 </Link>
               </li>
               <li>
-                <Link to="/goods/myPage" className="nav-user">
+                <Link to="/goods/myPage" >
                   <i className="fa-solid fa-user-large"></i>
                 </Link>
               </li>
